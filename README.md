@@ -4,6 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+base Api =https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${600}
 In the project directory, you can run:
 
 ### `npm start`

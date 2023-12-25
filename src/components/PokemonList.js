@@ -8,6 +8,7 @@ import PokemonModal from './PokemonModal';
 const PokemonList = ({ pokemonData }) => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(true); 
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -34,13 +35,24 @@ const PokemonList = ({ pokemonData }) => {
     console.log('Card clicked for:', pokemonName);
   };
 
-
   useEffect(() => {
-    dispatch(fetchPokemonListAsync(0, 200)); // Adjust the limit as needed
+    setIsLoading(true); 
+    dispatch(fetchPokemonListAsync(0, 200)) 
+      .then(() => setIsLoading(false)) 
+      .catch((error) => {
+        console.error('Error fetching Pokemon list:', error);
+        setIsLoading(false); 
+      });
   }, [dispatch, selectedType]);
 
   return (
     <div className="relative">
+      {isLoading && (
+       
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="border-t-4 border-blue-500 border-solid rounded-full h-12 w-12 animate-spin"></div>
+        </div>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-7 pt-[8vw]">
         {filteredPokemon.map((pokemon) => (
           <PokemonCard
